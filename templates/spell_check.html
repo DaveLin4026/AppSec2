@@ -1,0 +1,25 @@
+{% block content %}
+	{% if login_success %}
+	<p id=result> success on login </p>
+	{% endif %}
+	<h1>Spell Check</h1>
+	<form action="" method="post" novalidate>
+		{{ form.hidden_tag() }}
+		<p>
+			{{ form.inputarea.label }}<br>
+			{{ form.inputarea }}
+		</p>
+		<p>
+			{{ form.submit() }}
+		</p>
+	</form>
+	{% if input_data %}
+	<p id=textout>
+		{{ input_data }}
+	</p>
+	<p id=misspelled>
+		{{ out }}
+	</p>
+	{% endif %}
+{% endblock %}
+

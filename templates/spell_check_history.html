@@ -1,0 +1,30 @@
+{% block content %}
+
+	<p> The number of queries made by user {{ searched_user.username }} is:</p>
+	<p id="numqueries">{{ count }}</p>
+
+	{% if qid %}
+		<p id="{{qid}}">{{ qid }}</p>
+		<p id="username"{{ searched_user.username }}</p>
+		<p id="querytext">{{ query.text_to_check }}</p>
+		<p id="queryresults">{{ query.result }}</p>
+	{% endif %}
+
+	{% for query in queries %}
+		<li><a href="/history/query{{ query.id }}" id="query{{query.id}}">Query #{{ query.id }}</a></li>
+	{% endfor %}
+
+	{% if user.is_admin %}
+	<form action="" method="post" novalidate>
+		{{ form.hidden_tag() }}
+
+		<p>
+			{{ form.username.label }}<br>
+			{{ form.username(size=32) }}
+		</p>
+		<p>
+			{{ form.submit() }}
+		</p>
+	</form>
+	{% endif %}
+{% endblock %}
