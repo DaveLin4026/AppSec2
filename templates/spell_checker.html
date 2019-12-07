@@ -1,8 +1,10 @@
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 	{% if login_success %}
 	<p id=result> success on login </p>
 	{% endif %}
-	<h1>Spell Check</h1>
+	<h1>Welcome to the Application Security Spell Checker!</h1>
+	<h0>Please input word below</h0>
 	<form action="" method="post" novalidate>
 		{{ form.hidden_tag() }}
 		<p>

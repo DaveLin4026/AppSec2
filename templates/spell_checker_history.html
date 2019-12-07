@@ -1,5 +1,5 @@
 {% block content %}
-
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 	<p> The number of queries made by user {{ searched_user.username }} is:</p>
 	<p id="numqueries">{{ count }}</p>
 
@@ -11,7 +11,7 @@
 	{% endif %}
 
 	{% for query in queries %}
-		<li><a href="/history/query{{ query.id }}" id="query{{query.id}}">Query #{{ query.id }}</a></li>
+		<li><a href="/query_history/query{{ query.id }}" id="query{{query.id}}">Query #{{ query.id }}</a></li>
 	{% endfor %}
 
 	{% if user.is_admin %}

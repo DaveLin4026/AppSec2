@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
+#https://wtforms.readthedocs.io/en/stable/crash_course.html
 
 from wtforms.validators import DataRequired
 
@@ -19,8 +20,8 @@ class RegisterForm(BaseUserForm):
 
 
 class SpellCheckForm(FlaskForm):
-    inputarea = StringField("inputtext", id="inputtext")
-    submit = SubmitField("spell check")
+    inputarea = StringField("input text", id="input text")
+    submit = SubmitField("Click Here")
 
 
 class UserSearchForm(FlaskForm):

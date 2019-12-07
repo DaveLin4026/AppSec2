@@ -1,0 +1,23 @@
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	{% if user.is_admin %}
+		<form action="" method="post" novalidate>
+			{{ form.hidden_tag() }}
+
+			<p>
+				{{ form.username.label }}<br>
+				{{ form.username(size=32) }}
+			</p>
+			<p>
+				{{ form.submit() }}
+			</p>
+		</form>
+
+		{% for query in queries %}
+			<p id="{{ 'logout' if query.activity_name == 'logout' else 'login'}}_{{query.id}}">
+				{{ query.activity_name }} time: {{ query.activity_time}}
+			</p>
+		{% endfor %}
+
+	{% endif %}
+{% endblock %}

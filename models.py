@@ -1,6 +1,8 @@
+import datetime
 import enum
 
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash
 
 from app import db
 
@@ -11,7 +13,7 @@ class Roles(enum.Enum):
 
 
 class User(UserMixin, db.Model):
-
+#  inherit from UserMixin, which provides default implementations for all of these properties and methods.
     __tablename__ = "cuser"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -29,6 +31,10 @@ class User(UserMixin, db.Model):
         self.password = password
         self.role = role
         self.two_factor = two_factor
+
+    def hash_and_save(self):
+        self.password = generate_password_hash(self.password)
+        return self.save()
 
     def save(self):
         existing_user = self.__class__.query.filter_by(username=self.username).first()
@@ -59,18 +65,31 @@ class SpellCheck(db.Model):
         db.session.commit()
         return self
 
-
     def can_be_accessed_by(self, user):
         if self.user.id == user.id or user.role == Roles.admin:
             return True
         return False
 
 
+class UserActivity(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    activity_time = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    activity_name = db.Column(db.String(80))
+
+    user_id = db.Column(db.Integer, db.ForeignKey("cuser.id"))
+    user = db.relationship("User")
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+        return self
+
+# Database Users Function
 def create_database_users():
     test_user = User(
         username="test", password="test", two_factor="12345678901", role=Roles.admin
     )
-    test_user.save()
+    test_user.hash_and_save()
 
     admin_user = User(
         username="admin",
@@ -78,11 +97,7 @@ def create_database_users():
         two_factor="12345678901",
         role=Roles.admin,
     )
-    admin_user.save()
+    admin_user.hash_and_save()
 
-    unauth_user = User(
-        username="unauth",
-        password="test",
-        two_factor="12345678901",
-    )
-    unauth_user.save()
+    unauth_user = User(username="unauth", password="test", two_factor="12345678901",)
+    unauth_user.hash_and_save()

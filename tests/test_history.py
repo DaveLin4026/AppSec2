@@ -33,3 +33,18 @@ def test_history(test_client, mocker):
         b'<li><a href="/history/query1" id="query1">Query #1</a></li>'
         in history_response.data
     )
+
+
+def test_history_unauth(test_client, mocker):
+    login_response = test_client.post(
+        "/login", data=dict(username="unauth", password="test",), follow_redirects=True,
+    )
+    assert login_response.status_code == 200
+
+    mock_check = mocker.patch("app.run_spell_check")
+    mock_check.return_value = "stuff"
+    spell_check_response = test_client.post(
+        "/spell_check", data=dict(inputarea="test data"), follow_redirects=True,
+    )
+    assert spell_check_response.status_code == 200
+    assert b"test data" in spell_check_response.data

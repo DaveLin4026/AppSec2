@@ -2,12 +2,12 @@ import subprocess
 import tempfile
 
 
-def run_spell_check(data):
+def run_spell_checker(data):
     """
-    Returns result of the spell check
+    Returns spell checker results
 
     Args:
-        data (string): text blurb to spell check
+        data (string): text blurb to spell checker
     """
     if data is None:
         return
