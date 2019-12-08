@@ -1,0 +1,8 @@
+version:  "3.7"
+services:
+  flask-application:
+    image: DaveLin4026/AppSec2
+    container_name: AppSec2
+    restart: always
+    ports:
+      - "8080:8080"
