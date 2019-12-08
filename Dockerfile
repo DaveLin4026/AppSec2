@@ -1,16 +1,19 @@
-FROM python:latest
-LABEL maintainer = "DaveLin4026"
+FROM python:3.7-alpine
 
-LABEL build_date = "2019-12-07"
-RUN apt-get update -y && \
-    apt-get upgrade -y
+WORKDIR /app
 
-RUN git clone https://github.com/DaveLin4026/AppSec2.git
+ENV FLASK_APP app.py
+ENV FLASK_RUN_HOST 0.0.0.0
+RUN apk add --no-cache gcc musl-dev linux-headers
 
-WORKDIR /AppSec2/
 
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt /app
+
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt
+
+COPY . /app
 
 EXPOSE 8080
-CMD [ "gunicorn", "AppSec2", "--bind", "0.0.0.0:8080", "--workers", "5" ]
+
+CMD ["flask", "run"]
